@@ -1,4 +1,5 @@
 __requires__ = [
-	'coherent.build',
-	'typer',
+    'coherent.build',
+    'coherent.test',
+    'typer',
 ]
