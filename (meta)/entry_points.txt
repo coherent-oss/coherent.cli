@@ -1,0 +1,2 @@
+[console_scripts]
+coh = coherent.cli.__main__:main
