@@ -1,4 +1,5 @@
 import pathlib
+import runpy
 import subprocess
 import sys
 
@@ -17,12 +18,14 @@ def install(target: pathlib.Path):
 
 @app.command()
 def build():
-    subprocess.run([sys.executable, '-m', 'coherent.build'])
+    del sys.argv[1]
+    runpy.run_module('coherent.build', run_name='__main__')
 
 
 @app.command()
 def test():
-    subprocess.run([sys.executable, '-m', 'coherent.test'])
+    del sys.argv[1]
+    runpy.run_module('coherent.test', run_name='__main__')
 
 
 if __name__ == '__main__':
