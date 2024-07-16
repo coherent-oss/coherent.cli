@@ -22,7 +22,12 @@ def build():
     runpy.run_module('coherent.build', run_name='__main__')
 
 
-@app.command()
+@app.command(
+    context_settings={
+        'allow_extra_args': True,
+        'ignore_unknown_options': True,
+    },
+)
 def test():
     del sys.argv[1]
     runpy.run_module('coherent.test', run_name='__main__')
