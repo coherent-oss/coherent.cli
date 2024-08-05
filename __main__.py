@@ -24,15 +24,15 @@ def install(target: pathlib.Path) -> None:
 
 
 @passthrough_command
-def build() -> None:
-    del sys.argv[1]
-    runpy.run_module('coherent.build', run_name='__main__')
-
-
-@passthrough_command
 def test() -> None:
     del sys.argv[1]
     runpy.run_module('coherent.test', run_name='__main__')
+
+
+@passthrough_command
+def build() -> None:
+    del sys.argv[1]
+    runpy.run_module('coherent.build', run_name='__main__')
 
 
 if __name__ == '__main__':
