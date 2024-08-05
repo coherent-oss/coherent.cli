@@ -18,19 +18,19 @@ passthrough_command = app.command(
 
 
 @app.command()
-def install(target: pathlib.Path):
+def install(target: pathlib.Path) -> None:
     with bootstrap.write_pyproject(target):
         subprocess.run([sys.executable, '-m', 'pip', 'install', target])
 
 
 @passthrough_command
-def build():
+def build() -> None:
     del sys.argv[1]
     runpy.run_module('coherent.build', run_name='__main__')
 
 
 @passthrough_command
-def test():
+def test() -> None:
     del sys.argv[1]
     runpy.run_module('coherent.test', run_name='__main__')
 
