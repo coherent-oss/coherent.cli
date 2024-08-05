@@ -7,7 +7,7 @@ from typing_extensions import Annotated
 import typer
 from coherent.build import bootstrap
 from jaraco.vcs import repo
-from jaraco.versioning import semver
+from jaraco.versioning import Versioned, semver
 
 
 app = typer.Typer()
@@ -44,7 +44,7 @@ def tag(
     context: typer.Context,
     location: Annotated[str, typer.Option('-C', help='Path to repository.')] = '.',
 ) -> None:
-    if tag_name in ('major', 'minor', 'patch'):
+    if tag_name in Versioned.semantic_increment:
         tag_name = semver(repo(location).get_next_version(tag_name))
     subprocess.run(['git', '-C', location, 'tag', '-a', tag_name, *context.args])
 
