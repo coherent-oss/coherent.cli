@@ -52,13 +52,11 @@ def tag(
     ] = '.',
 ) -> None:
     if kind_or_name in Versioned.semantic_increment:
-        name = semver(repository.get_next_version(kind_or_name))
+        name = repository.get_next_version(kind_or_name)
     else:
         name = kind_or_name
-    subprocess.run([
-        'git', '-C', repository.location, 'tag', '-a', name,
-        '-m', '', *context.args]
-    )
+    args = ['-a', semver(name), '-m', '', *context.args]
+    subprocess.run(['git', '-C', repository.location, 'tag', *args])
 
 
 if __name__ == '__main__':
