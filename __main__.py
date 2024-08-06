@@ -40,13 +40,15 @@ def build() -> None:
 
 @app.command(context_settings=dict(allow_extra_args=True))
 def tag(
-    tag_name: str,
+    kind_or_name: str,
     context: typer.Context,
     location: Annotated[str, typer.Option('-C', help='Path to repository.')] = '.',
 ) -> None:
-    if tag_name in Versioned.semantic_increment:
-        tag_name = semver(repo(location).get_next_version(tag_name))
-    subprocess.run(['git', '-C', location, 'tag', '-a', tag_name, *context.args])
+    if kind_or_name in Versioned.semantic_increment:
+        name = semver(repo(location).get_next_version(kind_or_name))
+    else:
+        name = kind_or_name
+    subprocess.run(['git', '-C', location, 'tag', '-a', name, *context.args])
 
 
 if __name__ == '__main__':
