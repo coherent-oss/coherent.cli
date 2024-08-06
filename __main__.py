@@ -6,7 +6,7 @@ from typing_extensions import Annotated
 
 import typer
 from coherent.build import bootstrap
-from jaraco.vcs import repo
+from jaraco.vcs import Repo
 from jaraco.versioning import Versioned, semver
 
 
@@ -42,13 +42,23 @@ def build() -> None:
 def tag(
     kind_or_name: str,
     context: typer.Context,
-    location: Annotated[str, typer.Option('-C', help='Path to repository.')] = '.',
+    repository: Annotated[
+        Repo,
+        typer.Option(
+            '-R', '--repository',
+            help='Path to repository.',
+            parser=Repo.detect,
+        ),
+    ] = '.',
 ) -> None:
     if kind_or_name in Versioned.semantic_increment:
-        name = semver(repo(location).get_next_version(kind_or_name))
+        name = semver(repository.get_next_version(kind_or_name))
     else:
         name = kind_or_name
-    subprocess.run(['git', '-C', location, 'tag', '-a', name, *context.args])
+    subprocess.run([
+        'git', '-C', repository.location, 'tag', '-a', name,
+        '-m', '', *context.args]
+    )
 
 
 if __name__ == '__main__':
