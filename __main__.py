@@ -55,9 +55,10 @@ def tag(
         name = repository.get_next_version(kind_or_name)
     else:
         name = kind_or_name
-    args = ['-a', semver(name), '-m', '', *context.args]
+    final_name = semver(name)
+    args = ['-a', final_name, '-m', '', *context.args]
     subprocess.run(['git', '-C', repository.location, 'tag', *args], check=True)
-    print(f"Created tag {name}")
+    print(f"Created tag {final_name}")
 
 
 if __name__ == '__main__':
