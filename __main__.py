@@ -2,9 +2,12 @@ import pathlib
 import runpy
 import subprocess
 import sys
+from typing_extensions import Annotated
 
 import typer
 from coherent.build import bootstrap
+from jaraco.vcs import Repo
+from jaraco.versioning import Versioned, semver
 
 
 app = typer.Typer()
@@ -33,6 +36,28 @@ def test() -> None:
 def build() -> None:
     del sys.argv[1]
     runpy.run_module('coherent.build', run_name='__main__')
+
+
+@app.command(context_settings=dict(allow_extra_args=True))
+def tag(
+    kind_or_name: str,
+    context: typer.Context,
+    repository: Annotated[
+        Repo,
+        typer.Option(
+            '-R', '--repository',
+            help='Path to repository.',
+            parser=Repo.detect,
+        ),
+    ] = '.',
+) -> None:
+    if kind_or_name in Versioned.semantic_increment:
+        name = repository.get_next_version(kind_or_name)
+    else:
+        name = kind_or_name
+    args = ['-a', semver(name), '-m', '', *context.args]
+    subprocess.run(['git', '-C', repository.location, 'tag', *args], check=True)
+    print(f"Created tag {name}")
 
 
 if __name__ == '__main__':
