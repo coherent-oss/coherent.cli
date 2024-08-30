@@ -56,7 +56,7 @@ def tag(
     else:
         name = kind_or_name
     args = ['-a', semver(name), '-m', '', *context.args]
-    subprocess.run(['git', '-C', repository.location, 'tag', *args])
+    subprocess.run(['git', '-C', repository.location, 'tag', *args], check=True)
 
 
 if __name__ == '__main__':
