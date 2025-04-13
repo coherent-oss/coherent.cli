@@ -2,13 +2,12 @@ import pathlib
 import runpy
 import subprocess
 import sys
-from typing_extensions import Annotated
+from typing import Annotated
 
 import typer
 from coherent.build import bootstrap
 from jaraco.vcs import Repo
 from jaraco.versioning import Versioned, semver
-
 
 app = typer.Typer()
 
@@ -45,7 +44,8 @@ def tag(
     repository: Annotated[
         Repo,
         typer.Option(
-            '-R', '--repository',
+            '-R',
+            '--repository',
             help='Path to repository.',
             parser=Repo.detect,
         ),
