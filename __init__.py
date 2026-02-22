@@ -6,5 +6,6 @@ A trivial test to allow the runner to pass.
 """
 
 __requires__ = [
+    'coherent.docs',
     'coherent.test',
 ]
