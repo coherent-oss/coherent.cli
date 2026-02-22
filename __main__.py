@@ -37,6 +37,12 @@ def build() -> None:
     runpy.run_module('coherent.build', run_name='__main__')
 
 
+@passthrough_command
+def docs() -> None:
+    del sys.argv[1]
+    runpy.run_module('coherent.docs', run_name='__main__')
+
+
 @app.command(context_settings=dict(allow_extra_args=True))
 def tag(
     kind_or_name: str,
