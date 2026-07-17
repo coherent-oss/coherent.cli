@@ -5,6 +5,8 @@ A trivial test to allow the runner to pass.
 'coherent.cli'
 """
 
+__license__ = 'Apache-2.0'
+
 __requires__ = [
     'coherent.docs',
     'coherent.test',
