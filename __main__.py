@@ -22,7 +22,7 @@ passthrough_command = app.command(
 @app.command()
 def install(target: pathlib.Path) -> None:
     with bootstrap.write_pyproject(target):
-        subprocess.run([sys.executable, '-m', 'pip', 'install', target])
+        subprocess.run([sys.executable, '-m', 'pip', 'install', target], check=True)
 
 
 @passthrough_command
